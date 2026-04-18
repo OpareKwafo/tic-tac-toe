@@ -66,25 +66,32 @@ while not winner:
     computer_position = str(random.randint(1, 9))
     print(f"Computer position is {computer_position}")
 
-    # Updating player position on the board
-    if computer_position == '1':
-        board["1"] = computer_move
-    elif computer_position == '2':
-        board["2"] = computer_move
-    elif computer_position == '3':
-        board["3"] = computer_move
-    elif computer_position == '4':
-        board["4"] = computer_move
-    elif computer_position == '5':
-        board["5"] = computer_move
-    elif computer_position == '6':
-        board["6"] = computer_move
-    elif computer_position == '7':
-        board["7"] = computer_move
-    elif computer_position == '8':
-        board["8"] = computer_move
+    # Only update if the space is empty
+    if board[computer_position] == " ":
+
+        # Updating player position on the board
+        if computer_position == '1':
+            board["1"] = computer_move
+        elif computer_position == '2':
+            board["2"] = computer_move
+        elif computer_position == '3':
+            board["3"] = computer_move
+        elif computer_position == '4':
+            board["4"] = computer_move
+        elif computer_position == '5':
+            board["5"] = computer_move
+        elif computer_position == '6':
+            board["6"] = computer_move
+        elif computer_position == '7':
+            board["7"] = computer_move
+        elif computer_position == '8':
+            board["8"] = computer_move
+        else:
+            board["9"] = computer_move
     else:
-        board["9"] = computer_move
+        computer_position = str(random.randint(1, 9))
+        print(f"Computer position is {computer_position}")
+
 
     show_board()
 
@@ -101,18 +108,23 @@ while not winner:
         ("1", "5", "9"),
         ("3", "5", "7")
     ]
+    
+    
+    # Only check for winner after 3 rounds
+    
+    if count >= 3:
 
-    for combo in winning_combination:
-        # Unpack each tuple
-        a, b, c = combo
+        for combo in winning_combination:
+            # Unpack each tuple
+            a, b, c = combo
 
-        # Check if you have the same symbol in a row
-        if (board[a] == board[b] == board[c]) and board[a] != " ":
+            # Check if you have the same symbol in a row
+            if (board[a] == board[b] == board[c]) and board[a] != " ":
 
-            if board[a] == player_move:
-                print("player_one won")
-            elif board[a] == computer_move:
-                print("computer won")
+                if board[a] == player_move:
+                    print("player_one won")
+                elif board[a] == computer_move:
+                    print("computer won")
 
     show_board()
 

@@ -36,23 +36,26 @@ game_over = False
 
 
 
-while count < 10 or not game_over:
+while count < 10 and not game_over:
 
     # Getting player move
     player_position = input("where do you want to put it - Enter 1 - 9: ")
+    print(f"The player position is {player_position}")
     computer_position = str(random.randint(1, 9))
+    print(f"Computer position is {computer_position}")
 
     # Keep asking for input if the selected position if already filled
     while board[player_position] != " ":
         player_position = input("where do you want to put it - Enter 1 - 9: ")
         print(f"The player position is {player_position}")
+    board[player_position] = player_move
 
     while board[computer_position] != " ":
         computer_position = str(random.randint(1, 9))
         print(f"Computer position is {computer_position}")
-
-    board[player_position] = player_move
     board[computer_position] = computer_move
+
+    
     show_board()
     print("-" * 20)
 

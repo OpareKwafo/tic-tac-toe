@@ -1,88 +1,79 @@
 import random
 
-# Initializing the board as a dictionary.
-board = {
-    "1": " ", "2": " ", "3": " ",
-    "4": " ", "5": " ", "6": " ",
-    "7": " ", "8": " ", "9": " "
-}
+from player import Player
+from board import Board
+from check_winner import check_winner
 
-# The winning combination
-winning_combination = [
-    ("1", "2", "3"), 
-    ("4", "5", "6"),
-    ("7", "8", "9"),
-    ("1", "4", "7"),
-    ("2", "5", "8"),
-    ("3", "6", "9"),
-    ("1", "5", "9"),
-    ("3", "5", "7")
-]
+# Create a player
+human_player = Player("Human", "X")
 
-# Assigning symbols
-player_move = "X"
-computer_move = "O"
+# Create Computer player
+computer_player = Player("computer", "O", True)
 
-def show_board():
-
-    print(board["1"] + " | " + board["2"] + " | " + board["3"])
-    print("-+-+-+-+-")
-    print(board["4"] + " | " + board["5"] + " | " + board["6"])
-    print("-+-+-+-+-")
-    print(board["7"] + " | " + board["8"] + " | " + board["9"])
+# Show board
+game_board = Board()
+game_board.show_board()
 
 count = 1
+
 game_over = False
 
+while count < 10 and not game_over: 
+
+    # Get player selection
+    player_selection = human_player.select_position()
+
+    # Update board with player selection; Check if that position is empty first
+    while game_board.get_position(player_selection) != " ":
+        player_selection = human_player.select_position()
+    game_board.set_position(player_selection, human_player.move) 
+    print(f"This is the game board after your turn")
+    game_board.show_board()
+
+    # Get computer selection
+    computer_selection = computer_player.select_position()
+
+    # Update board with computer selection; Check if that position is empty first
+    while game_board.get_position(computer_selection) != " ":
+        computer_selection = computer_player.select_position()
+    game_board.set_position(computer_selection, computer_player.move) 
+    print(f"This is the game board after the computer's turn")
+    game_board.show_board()
+
+    print(f"This is the game board after round {count}")
+    game_board.show_board()
+    count += 1
 
 
-while count < 10 and not game_over:
-
-    # Getting player move
-    player_position = input("where do you want to put it - Enter 1 - 9: ")
-    print(f"The player position is {player_position}")
-    computer_position = str(random.randint(1, 9))
-    print(f"Computer position is {computer_position}")
-
-    # Keep asking for input if the selected position if already filled
-    while board[player_position] != " ":
-        player_position = input("where do you want to put it - Enter 1 - 9: ")
-        print(f"The player position is {player_position}")
-    board[player_position] = player_move
-
-    while board[computer_position] != " ":
-        computer_position = str(random.randint(1, 9))
-        print(f"Computer position is {computer_position}")
-    board[computer_position] = computer_move
+    # Check winner - We only want to start checking after round 3
+    if count >= 3:
+        winner = check_winner(game_board, human_player.move, computer_player.move)
+    # End game if there is a winner
+        if winner:
+            game_over = True
 
     
-    show_board()
-    print("-" * 20)
 
-    # Only check for winner after 3 rounds
-    if count >= 3:
-        for combo in winning_combination:
-            # Unpack each tuple
-            a, b, c = combo
 
-            # Check if you have the same symbol in a row
-            if (board[a] == board[b] == board[c]) and board[a] != " ":
-                game_over = True
-                if board[a] == player_move:
-                    print("player_one won")
-                    break
-                elif board[a] == computer_move:
-                    print("computer won")
-                    break
-                else:
-                    print("Appears to be a draw")
-                    break
 
-    print(f"This is the board after round {count}")
-    show_board()
-    # Update the count
-    count += 1
-            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
